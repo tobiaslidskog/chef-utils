@@ -1,12 +1,24 @@
 #!/bin/sh
 
 if [ -d chef-repo ]; then
- echo "chef-repo folder already exists, exiting!"
- exit 1
+	echo "chef-repo folder already exists. Exiting!"
+	exit 1
+fi
+
+git --version >> /dev/null
+
+if [ $? != 0 ]; then
+	echo "git command does not exist. Exiting!"
+	exit 1
 fi
 
 echo "cloning OpsCode repo template"
 git clone git://github.com/opscode/chef-repo.git
+
+if [ $? != 0 ]; then
+	echo "git clone failed, check internet connection. Exiting!"
+	exit 1
+fi
 
 cd chef-repo
 
