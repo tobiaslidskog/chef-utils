@@ -44,7 +44,7 @@ log_level                :info
 log_location             STDOUT
 cache_type               'BasicFile'
 cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
-cookbook_path            ["#{current_dir}/../cookbooks"]
+cookbook_path            ["#{current_dir}/../cookbooks", "#{current_dir}/../site-cookbooks"]
 END_OF_FILE
 git add .chef
 git commit -m "adding .chef folder with knife.rb settings for cookbook paths"
