@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ $# -gt 1 ]; then
+	echo "script must be called with zero or one argument"
+	exit 1
+fi
+
 if [ -d chef-repo ]; then
 	echo "chef-repo folder already exists. Exiting!"
 	exit 1
@@ -12,15 +17,17 @@ if [ $? != 0 ]; then
 	exit 1
 fi
 
+DIR=${1:-"chef-repo"}
+
 echo "cloning OpsCode repo template"
-git clone git://github.com/opscode/chef-repo.git
+git clone git://github.com/opscode/chef-repo.git $DIR
 
 if [ $? != 0 ]; then
 	echo "git clone failed, check internet connection. Exiting!"
 	exit 1
 fi
 
-cd chef-repo
+cd $DIR
 
 echo "removing git folders from template"
 rm -rf .git
@@ -49,6 +56,7 @@ END_OF_FILE
 git add .chef
 git commit -m "adding .chef folder with knife.rb settings for cookbook paths"
 
+cd ..
 
 echo "You now have a clean Chef repo of your own. Go on and use 'knife cookbook site install COOKBOOK_NAME' to install community cookbooks in a controlled way. Use git submodules to add 3rd party cookbooks"
 echo "remaining work is to add scripts for adding 3rd party cookbooks, and more"
